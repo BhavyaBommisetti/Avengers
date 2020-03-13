@@ -7,7 +7,7 @@ pipeline {
         maven "Maven"   
     }   
     environment{
-        sonarscanner = tool 'SonarScanner'
+        sonarscanner = tool 'sonar scanner'
     }
     stages {
         stage('Compile-Build-Test ') {
@@ -17,24 +17,12 @@ pipeline {
         }
         stage('SonarQube Analysis'){
             steps{
-               withSonarQubeEnv('sonarqube'){
+               withSonarQubeEnv('SonarQube'){
                      sh '${sonarscanner}/bin/sonar-scanner -Dproject.settings=./sonar-project.properties'
                 }
             }
         }
-        stage('TEAM'){
-            steps{
-             script{
-    
-   String jenkins= UserDetails(JSON)
-   String github=Github_Commit(JSON)
-   String son=sonar(JSON)
-   // int pull=gitpullrequest(jsondata)
-   // print result
-    Teamscore(JSON,github,jenkins,son)
-    }
-        }
-        }
+
     }
         
         /*stage("Quality Gate") {
